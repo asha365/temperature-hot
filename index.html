@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="input-btn" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="submit" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="location">Dhaka</h1>
+            <h3><span id="temperature">38.06</span>&deg;C</h3>
+            <h1 id="description" class="lead">Clouds</h1>
+        </div>
+    </div>
+    <script>
+        const submitBtn = document.getElementById('submit');
+        submitBtn.addEventListener('click', function(){
+            const inputBtn = document.getElementById('input-btn').value;
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputBtn+'&appid=bff54c55e50a07cc802491b4dc993457')
+            .then(response => response.json())
+            .then(data => {
+                const cityName = data.name;
+                const temperature = data.main.temp;
+                const temp = temperature - 273.15;
+                const description = data.weather[0].description;
+                //const imageUrl = "https:// http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png";
+                
+
+                document.getElementById('location').innerText = cityName;
+                document.getElementById('temperature').innerText = temp.toFixed(2);
+                document.getElementById('description').innerText = description;
+                
+            })
+            .catch(res => alert("Enter the right city name"))
+        })
+    </script>
+
+</body>
+</html>
